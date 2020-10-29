@@ -1,0 +1,21 @@
+#importing the functions to import data from a csv file and randomly choose a word
+import csv
+from random import choice
+
+#This opens the csv file and reads the lines. Each row in the csv file is another element in a massive list.  
+f = open("./dictionary.csv", "r")
+lines = f.readlines()
+
+words = set()
+
+for line in lines:         #for loop to reiterate parsing of the data
+	a = line.split(",")      #we delineate the subelements in the list because each row has three pieces of information (the word, its part of speech, and definition)     
+	a[0] = a[0][1:len(a[0])-1]   #a[0] references the first piece of information, the word itself. We then remove the parenthesis around it by only excluding the first and last characters
+	a[0] = a[0].lower()          #We then modify a[0] again by making it lower case
+	if a[0].isalpha() and len(a[0])>5:    #This line checks if the word only has letters in it. This removes words with hyphens. It also removes words less than 5 characters long.  
+		words.add(a[0])            #This line now adds the word into a set for memory
+
+words_list = list(words)     #We convert the set into a list as the function choice can only apply to sequences 
+print(choice(words_list))     #We print a random word from the csv file. 
+
+
