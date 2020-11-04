@@ -1,0 +1,52 @@
+word = "tough"
+attempts = 8
+guessed = False
+guessedletters = set()
+guessedwords = set()
+
+wordlist = list(word)
+
+def correct():
+	print(":) Congratulations! You've guessed the word:", word)
+	exit()
+
+print("Please enter either a letter or the word")
+
+while guessed is False and attempts > 0:	
+	guess = input()
+	if len(guess) == 1 and guess.isalpha():
+		if guess in guessedletters:
+			print("You've already tried that letter")
+		elif guess in word:
+			print("Nice! That's one of the letters")
+			guessedletters.add(guess)
+			checklist = list(guessedletters)
+			check = all(item in checklist for item in wordlist)
+			if check == True:
+				correct() 
+		else:
+			guessedletters.add(guess)
+			print("That letter is not in the word. Try again", attempts-1, "attempts left")
+			attempts = attempts-1
+
+
+	elif len(guess) > 1 and guess.isalpha():
+		if guess in guessedwords:
+			print("Try Again! You've already tried that word")
+			guessedwords.add(guessed)
+		elif guess == word:
+			correct()
+			guessed = True
+		else:
+			print("That is not the word. Try again", attempts-1, "attempts left")
+			attempts = attempts-1
+			guessedwords.add(guess)
+
+
+	else:
+		print("Try another input that is either a letter or the word")
+
+if attempts == 0:
+	print("You have been hanged")
+	print("The word was:", word)
+	exit()
