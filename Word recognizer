@@ -11,7 +11,7 @@ def correct():
 	exit()
 
 print("Please enter either a letter or the word")
-
+print("The word is", len(word), "letters long")
 while guessed is False and attempts > 0:	
 	guess = input()
 	if len(guess) == 1 and guess.isalpha():
