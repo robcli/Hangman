@@ -1,17 +1,19 @@
-word = "tough"
+word = "stopping"
 attempts = 8
+count = 0
 guessed = False
 guessedletters = set()
 guessedwords = set()
 
 wordlist = list(word)
+print("The word is", len(word), "letters long")
 
 def correct():
 	print(":) Congratulations! You've guessed the word:", word)
 	exit()
 
 print("Please enter either a letter or the word")
-print("The word is", len(word), "letters long")
+
 while guessed is False and attempts > 0:	
 	guess = input()
 	if len(guess) == 1 and guess.isalpha():
@@ -20,6 +22,10 @@ while guessed is False and attempts > 0:
 		elif guess in word:
 			print("Nice! That's one of the letters")
 			guessedletters.add(guess)
+			for c in word:
+				if c == guess:
+					count += 1
+			print("The word has", len(word)-count, "letters left")
 			checklist = list(guessedletters)
 			check = all(item in checklist for item in wordlist)
 			if check == True:
@@ -33,7 +39,6 @@ while guessed is False and attempts > 0:
 	elif len(guess) > 1 and guess.isalpha():
 		if guess in guessedwords:
 			print("Try Again! You've already tried that word")
-			guessedwords.add(guessed)
 		elif guess == word:
 			correct()
 			guessed = True
