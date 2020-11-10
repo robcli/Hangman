@@ -1,0 +1,87 @@
+import csv
+from random import choice
+
+f = open("./dictionary.csv", "r")
+lines = f.readlines()
+
+words = set()
+
+for line in lines:
+	a = line.split(",")
+	a[0] = a[0][1:len(a[0])-1]
+	a[0] = a[0].lower()
+	if a[0].isalpha() and len(a[0])>5:
+		words.add(a[0])
+
+words_list = list(words)
+word = choice(words_list) 
+attempts = 8
+count = 0
+guessed = False
+guessedletters = set()
+guessedwords = set()
+display_of_guesses = ["-" for letter in word]
+wordlist = list(word)
+
+print("The word is", len(word), "letters long")
+
+def correct():
+	print(":) Congratulations! You've guessed the word:", word)
+	exit()
+
+def update():
+	for i in range(len(word)):
+			if word[i] == guess:
+				display_of_guesses[i] = guess
+
+print("Please enter either a letter or the word")
+
+
+while guessed is False and attempts > 0:	
+	print()
+	guess = input()
+	
+	if len(guess) == 1 and guess.isalpha():
+		if guess in guessedletters:
+			print("You've already tried that letter\nEnter another letter or word")	
+		
+		elif guess in word:
+			print("Nice! That's one of the letters\nEnter another letter or word")
+			
+			guessedletters.add(guess)
+			
+			update()
+			
+			print("The current word is:", " ".join(display_of_guesses), "\nThe letters you have guessed are:", guessedletters)
+			
+			checklist = list(guessedletters)
+			check = all(item in checklist for item in wordlist)
+			if check == True:
+				correct() 
+		else:
+			guessedletters.add(guess)
+			print("That letter is not in the word. Try again", attempts-1, "attempts left")
+			update()
+			print("The current word is:", " ".join(display_of_guesses), "\nThe letters you have guessed are:", guessedletters)
+			attempts = attempts-1
+
+
+	elif len(guess) > 1 and guess.isalpha():
+		if guess in guessedwords:
+			print("Try Again! You've already tried that word")
+		elif guess == word:
+			correct()
+			guessed = True
+		else:
+			guessedwords.add(guess)
+			print("That is not the word. Try again", attempts-1, "attempts left\nThe current word is:", " ".join(display_of_guesses), "\nThe words you have already guessed:", guessedwords)
+			attempts = attempts-1
+			
+
+	else:
+		print("Try another input that is either a letter or the word")
+
+if attempts == 0:
+	print("You have been hanged")
+	print("The word was:", word)
+	exit()
